@@ -1,0 +1,25 @@
+<mat-table [dataSource]="dataSource" matSort (matSortChange)="handleSortEvent($event)" class="table">
+  <ng-container cdkColumnDef="name">
+    <mat-header-cell *cdkHeaderCellDef mat-sort-header>Name</mat-header-cell>
+    <mat-cell *cdkCellDef="let row">{{ row.name }}</mat-cell>
+  </ng-container>
+
+
+  <mat-header-row *cdkHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row
+    *cdkRowDef="let row; columns: displayedColumns;"
+    (click)="handleRowClick(row)">
+  </mat-row>
+
+</mat-table>
+
+<div class="table-spacer" *ngIf="!totalUsers">No users to show</div>
+
+<mat-paginator
+  *ngIf="totalUsers"
+  [length]="totalUsers"
+  [pageIndex]="pageIndex"
+  [pageSize]="pageSize"
+  [pageSizeOptions]="[10, 25, 50, 100]"
+  (page)="handlePageEvent($event)">
+</mat-paginator>
