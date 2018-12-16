@@ -45,11 +45,14 @@ const start = async () => {
         userRouter.get('/', async function (req, res) {
             var page = req.query.page || 0;
             var size = req.query.size || 10;
+            var order_key = req.query.order_key || 'name';
+            var order_dir = req.query.order_dir || 'asc';
 
             const searchAllUsers = promisify(client.search.bind(client));
 
             try {
                 const es_response = await searchAllUsers({
+                    sort: order_key + '.keyword' + ':' + order_dir,
                     from: page * size,
                     size: size,
                     index: 'users',
@@ -72,7 +75,8 @@ const start = async () => {
                 }
 
             } catch (e) {
-                console.log(e)
+                res.status(e.status);
+                res.send();
             }
         });
 
@@ -140,8 +144,22 @@ const start = async () => {
             res.send('Update specific user');
         });
 
-        userRouter.delete('/:id', function (req, res) {
-            res.send('Delete specific user');
+        userRouter.delete('/:id', async function (req, res) {
+            const searchUser = promisify(client.delete.bind(client));
+
+            try {
+                await searchUser({
+                    index: 'users',
+                    type: '_doc',
+                    id: req.params.id
+                });
+
+                res.send()
+
+            } catch (e) {
+                res.status(404);
+                res.send();
+            }
         });
 
         app.listen(8000, function () {
