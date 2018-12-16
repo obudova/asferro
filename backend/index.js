@@ -116,7 +116,7 @@ const start = async () => {
     userRouter.post('/', async function (req, res) {
         var name = req.body.name;
         var surname = req.body.surname;
-        var birth_date = req.body.birth_date;
+        var birth_date = Date.parse(req.body.birth_date);
         var email = req.body.email;
 
         const createUserIndex = promisify(client.index.bind(client));
@@ -130,8 +130,8 @@ const start = async () => {
                     surname: surname,
                     birth_date: birth_date,
                     email: email,
-                    created_at: Math.round(Date.now() / 1000),
-                    updated_at: Math.round(Date.now() / 1000)
+                    created_at: Math.round(Date.now()),
+                    updated_at: Math.round(Date.now())
                 }
             });
 
@@ -164,13 +164,12 @@ const start = async () => {
                     surname: surname,
                     birth_date: birth_date,
                     email: email,
-                    updated_at: Math.round(Date.now() / 1000)
+                    updated_at: Math.round(Date.now())
                 }
             });
 
-            res.send({
-                id: es_response['_id']
-            });
+            res.send();
+
         } catch (e) {
             console.log(e);
             res.stat(e.status);

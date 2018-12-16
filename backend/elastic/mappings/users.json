@@ -46,7 +46,7 @@
         },
         "birth_date": {
           "type": "date",
-          "format": "yyyy-MM-dd HH:mm:ss"
+          "format": "epoch_millis"
         },
         "phone_number": {
           "type": "text",
@@ -70,11 +70,11 @@
         },
         "updated_at": {
           "type": "date",
-          "format": "yyyy-MM-dd HH:mm:ss"
+          "format": "epoch_millis"
         },
         "created_at": {
           "type": "date",
-          "format": "yyyy-MM-dd HH:mm:ss"
+          "format": "epoch_millis"
         }
       }
     }
