@@ -20,7 +20,7 @@ export interface User {
 
 export interface UserListResponse {
   total?: number;
-  users?: any;
+  users?: User[];
 }
 
 @Injectable()
