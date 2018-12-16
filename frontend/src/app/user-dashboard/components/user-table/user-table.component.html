@@ -11,7 +11,12 @@
 
   <ng-container cdkColumnDef="birth_date">
     <mat-header-cell *cdkHeaderCellDef mat-sort-header>Date of birth</mat-header-cell>
-    <mat-cell *cdkCellDef="let row">{{ row.birth_date }}</mat-cell>
+    <mat-cell *cdkCellDef="let row">{{ row.birth_date | date:'short'}}</mat-cell>
+  </ng-container>
+
+  <ng-container cdkColumnDef="updated_at">
+    <mat-header-cell *cdkHeaderCellDef mat-sort-header>Last updated</mat-header-cell>
+    <mat-cell *cdkCellDef="let row">{{ row.updated_at | date:'short' }}</mat-cell>
   </ng-container>
 
   <mat-header-row *cdkHeaderRowDef="displayedColumns"></mat-header-row>

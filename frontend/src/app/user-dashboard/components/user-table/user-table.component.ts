@@ -35,7 +35,7 @@ export class UserTableComponent {
   @Output()
   paginationOptionsChanged = new EventEmitter<PaginationOptions>();
 
-  displayedColumns = ['name', 'surname', 'birth_date'];
+  displayedColumns = ['name', 'surname', 'birth_date', 'updated_at'];
 
   handleRowClick(user: User) {
     this.rowClicked.emit(user);
