@@ -1,8 +1,12 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
+// @Todo: create module for services
+
+import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { UserDashboardModule } from './user-dashboard/user-dashboard.module';
+import { RequestService } from '../services/request.service';
 
 @NgModule({
   declarations: [
@@ -10,9 +14,10 @@ import { UserDashboardModule } from './user-dashboard/user-dashboard.module';
   ],
   imports: [
     BrowserModule,
-    UserDashboardModule
+    UserDashboardModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [RequestService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "API_HOST=localhost node scripts/generateEnvFile.js && ng serve  ",
     "build": "ng build",
     "build:custom": "node scripts/generateEnvFile.js && ng build --prod --environment=custom",
     "test": "ng test",

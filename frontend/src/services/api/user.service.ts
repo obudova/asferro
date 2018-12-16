@@ -3,6 +3,8 @@ import { Observable } from 'rxjs/Observable';
 
 import { RequestService } from '../request.service';
 
+import { environment } from '../../environments/environment.custom';
+
 
 export interface UserListResponse {
   total?: number;
@@ -11,7 +13,9 @@ export interface UserListResponse {
 
 @Injectable()
 export class UserService {
-  constructor(private requestService: RequestService) { }
+  constructor(private requestService: RequestService) {
+    console.log('service', environment);
+  }
 
   list(): Observable<UserListResponse>  {
     return this.requestService.request(`localhost:8081`, 'GET');

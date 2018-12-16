@@ -14,6 +14,9 @@ import { CdkTableModule } from '@angular/cdk/table';
 import { UserDashboardComponent } from './containers/user-dasboard/user-dashboard.component';
 import { UserTableComponent } from './components/user-table/user-table.component';
 
+// Services
+import { UserService } from '../../services/api/user.service';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -31,6 +34,9 @@ import { UserTableComponent } from './components/user-table/user-table.component
   ],
   exports: [
     UserDashboardComponent
+  ],
+  providers: [
+    UserService
   ]
 })
 export class UserDashboardModule { }
