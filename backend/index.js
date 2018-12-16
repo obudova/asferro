@@ -143,8 +143,34 @@ const start = async () => {
             }
         });
 
-        userRouter.patch('/:id', function (req, res) {
-            res.send('Update specific user');
+        userRouter.put('/:id', async function (req, res) {
+            var name = req.body.name;
+            var surname = req.body.surname;
+            var birth_date = req.body.birth_date;
+            var email = req.body.email;
+
+            const createUserIndex = promisify(client.update.bind(client));
+
+            try {
+                const es_response = await createUserIndex({
+                    index: 'users',
+                    type: '_doc',
+                    id: req.params.id,
+                    body: {
+                        name: name,
+                        surname: surname,
+                        birth_date: birth_date,
+                        email: email,
+                        updated_at: Math.round(Date.now() / 1000)
+                    }
+                });
+
+                res.send({
+                    id: es_response['_id']
+                });
+            } catch (e) {
+
+            }
         });
 
         userRouter.delete('/:id', async function (req, res) {
