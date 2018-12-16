@@ -18,5 +18,4 @@ export class EditUserComponent implements OnInit {
   ngOnInit() {
     this.userForm = this.fb.group({});
   }
-
 }

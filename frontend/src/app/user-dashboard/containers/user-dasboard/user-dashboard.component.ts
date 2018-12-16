@@ -6,6 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 
 import { UserService, User } from '../../../../services/api/user.service';
 import { EditUserComponent } from '../../components/edit-user/edit-user.component';
+import { CreateUserComponent } from '../../components/create-user/create-user.component';
 
 
 @Component({
@@ -35,6 +36,12 @@ export class UserDashboardComponent implements OnInit {
       data: {
         user
       }
+    });
+  }
+
+  handleAddUserClick() {
+    const dialogRef = this.dialog.open(CreateUserComponent, {
+      width: '320px',
     });
   }
 }
