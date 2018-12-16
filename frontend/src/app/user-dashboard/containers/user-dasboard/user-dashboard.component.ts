@@ -18,6 +18,7 @@ import { CreateUserComponent } from '../../components/create-user/create-user.co
 export class UserDashboardComponent implements OnInit {
   userDataSource: UserDataSource = null;
   userChanges: BehaviorSubject<User[]> = new BehaviorSubject<User[]>([]);
+  userPaginationOptions = { page: 0, size: 10};
 
   editUserDialogRef: MatDialogRef<EditUserComponent>;
   creatUserDialogRef: MatDialogRef<CreateUserComponent>;

@@ -9,3 +9,10 @@
     margin: 40px 0;
   }
 }
+
+.mat-row {
+  &:hover {
+    cursor: pointer;
+    background: #eef1f3;
+  }
+}
