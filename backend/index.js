@@ -17,20 +17,16 @@ const start = async () => {
     const createUserIndex = promisify(client.indices.create.bind(client));
 
     try {
-        await userIndexExists({index: 'users'});
-    } catch (e) {
-        if (e.status === 404) {
+        if (!await userIndexExists({index: 'users'})) {
             try {
                 await createUserIndex({index: 'users', body: user_mapping});
                 console.log('created index');
             } catch (e) {
-                if (e.status === 400) {
-                    console.log('index already exists')
-                } else {
-                    throw e;
-                }
+                console.log(e)
             }
         }
+    } catch (e) {
+        console.log(e);
     }
 
     // Init express framework
@@ -125,6 +121,7 @@ const start = async () => {
             const es_response = await createUserIndex({
                 index: 'users',
                 type: '_doc',
+                refresh: true,
                 body: {
                     name: name,
                     surname: surname,
@@ -159,6 +156,7 @@ const start = async () => {
                 index: 'users',
                 type: '_doc',
                 id: req.params.id,
+                refresh: true,
                 body: {
                     name: name,
                     surname: surname,
@@ -184,7 +182,8 @@ const start = async () => {
             await searchUser({
                 index: 'users',
                 type: '_doc',
-                id: req.params.id
+                id: req.params.id,
+                refresh: true
             });
 
             res.send()
@@ -201,7 +200,6 @@ const start = async () => {
     });
 
     app.use('/api/users', userRouter);
-
 };
 
 start();
