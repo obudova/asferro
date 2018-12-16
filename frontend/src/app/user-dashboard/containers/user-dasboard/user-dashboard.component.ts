@@ -8,6 +8,7 @@ import { MatSnackBar } from '@angular/material'
 import { UserService, User } from '../../../../services/api/user.service';
 import { EditUserComponent } from '../../components/edit-user/edit-user.component';
 import { CreateUserComponent } from '../../components/create-user/create-user.component';
+import { PaginationOptions } from '../../components/user-table/user-table.component';
 
 
 @Component({
@@ -40,7 +41,7 @@ export class UserDashboardComponent implements OnInit {
   loadUsers() {
     this.loading = true;
 
-    this.userService.list()
+    this.userService.paginate(this.userPaginationOptions)
       .finally(() => {
         this.loading = false;
       })
@@ -117,6 +118,12 @@ export class UserDashboardComponent implements OnInit {
         error => {
           this.snackbar.open('Some error occurred while updating user', 'Dismiss');
         });
+  }
+
+  handlePaginationOptionsChanged(event: PaginationOptions) {
+    this.userPaginationOptions = event;
+
+    this.loadUsers();
   }
 }
 
