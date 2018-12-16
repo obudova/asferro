@@ -1,5 +1,5 @@
 <h2>Create user</h2>
 <app-user-form [parent]="userForm"></app-user-form>
 <div class="form-controls">
-  <button mat-raised-button color="primary" (click)="createUser()">Create</button>
+  <button mat-raised-button color="primary" (click)="createUser()" [disabled]="userForm.invalid">Create</button>
 </div>

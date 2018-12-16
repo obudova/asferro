@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { User } from '../../../../services/api/user.service';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-user-form',
@@ -8,6 +8,8 @@ import { FormGroup, FormBuilder } from '@angular/forms';
   styleUrls: ['./user-form.component.scss']
 })
 export class UserFormComponent implements OnInit {
+  maxDate = new Date;
+
   @Input()
   user: User;
 
@@ -18,11 +20,11 @@ export class UserFormComponent implements OnInit {
 
   ngOnInit() {
     const userForm = {
-      name: this.fb.control(this.user && this.user.name),
-      surname: this.fb.control(this.user && this.user.surname),
+      name: this.fb.control(this.user && this.user.name, Validators.required),
+      surname: this.fb.control(this.user && this.user.surname, Validators.required),
       birth_date: this.fb.control(this.user && this.user.birth_date),
       phone_number: this.fb.control(this.user && this.user.phone_number),
-      email: this.fb.control(this.user && this.user.email),
+      email: this.fb.control(this.user && this.user.email, Validators.email),
     };
     
     Object.keys(userForm).forEach((control) => {

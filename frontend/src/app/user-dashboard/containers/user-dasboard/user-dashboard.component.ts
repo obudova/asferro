@@ -77,7 +77,7 @@ export class UserDashboardComponent implements OnInit {
         () => {
           console.log('Error while creating user');
         }
-      )
+      );
   }
 }
 

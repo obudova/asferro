@@ -2,5 +2,5 @@
 <app-user-form [user]="data.user" [parent]="userForm"></app-user-form>
 <div class="form-controls">
   <button mat-raised-button color="warn">Delete</button>
-  <button mat-raised-button color="primary" (click)="saveUser()">Save</button>
+  <button mat-raised-button color="primary" (click)="saveUser()" [disabled]="userForm.invalid">Save</button>
 </div>
