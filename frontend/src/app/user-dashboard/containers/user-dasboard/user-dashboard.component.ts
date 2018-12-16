@@ -3,6 +3,7 @@ import { DataSource } from '@angular/cdk/table';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material'
 
 import { UserService, User } from '../../../../services/api/user.service';
 import { EditUserComponent } from '../../components/edit-user/edit-user.component';
@@ -23,7 +24,8 @@ export class UserDashboardComponent implements OnInit {
   creatUserDialogRef: MatDialogRef<CreateUserComponent>;
   constructor(
     private userService: UserService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private snackbar: MatSnackBar
   ) { }
 
   ngOnInit() {
@@ -60,10 +62,10 @@ export class UserDashboardComponent implements OnInit {
     this.editUserDialogRef.close();
     this.userService.update(id, user)
       .subscribe(() => {
-        console.log('success');
+          this.snackbar.open('User was successfully updated', 'Dismiss');
         },
         error => {
-        console.log(error);
+          this.snackbar.open('Some error occurred while updating user', 'Dismiss');
         });
   }
 
@@ -72,10 +74,10 @@ export class UserDashboardComponent implements OnInit {
     this.userService.create(user)
       .subscribe(
         (response) => {
-          console.log('User was successfully created');
+          this.snackbar.open('User was successfully created', 'Dismiss');
         },
         () => {
-          console.log('Error while creating user');
+          this.snackbar.open('Some error occurred while creating user', 'Dismiss');
         }
       );
   }

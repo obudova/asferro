@@ -14,6 +14,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 // Components
 import { UserDashboardComponent } from './containers/user-dasboard/user-dashboard.component';
@@ -39,7 +40,8 @@ import { UserService } from '../../services/api/user.service';
     ReactiveFormsModule,
     MatInputModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatSnackBarModule
   ],
   declarations: [
     UserDashboardComponent,
