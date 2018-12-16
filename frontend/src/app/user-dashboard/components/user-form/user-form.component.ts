@@ -18,7 +18,11 @@ export class UserFormComponent implements OnInit {
 
   ngOnInit() {
     const userForm = {
-      name: this.fb.control(this.user && this.user.name)
+      name: this.fb.control(this.user && this.user.name),
+      surname: this.fb.control(this.user && this.user.surname),
+      birth_date: this.fb.control(this.user && this.user.birth_date),
+      phone_number: this.fb.control(this.user && this.user.phone_number),
+      email: this.fb.control(this.user && this.user.email),
     };
     
     Object.keys(userForm).forEach((control) => {

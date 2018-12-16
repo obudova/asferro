@@ -6,12 +6,15 @@ import {
   MatTableModule,
   MatSortModule,
   MatPaginatorModule,
-  MatButtonModule
+  MatButtonModule,
+  MatNativeDateModule
 } from '@angular/material';
 import { CdkTableModule } from '@angular/cdk/table';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+
 // Components
 import { UserDashboardComponent } from './containers/user-dasboard/user-dashboard.component';
 import { UserTableComponent } from './components/user-table/user-table.component';
@@ -34,7 +37,9 @@ import { UserService } from '../../services/api/user.service';
     CdkTableModule,
     MatDialogModule,
     ReactiveFormsModule,
-    MatInputModule
+    MatInputModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   declarations: [
     UserDashboardComponent,

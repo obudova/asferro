@@ -18,4 +18,8 @@ export class CreateUserComponent implements OnInit {
   ngOnInit() {
     this.userForm = this.fb.group({});
   }
+
+  createUser() {
+    this.data.onCreate(this.userForm.value);
+  }
 }

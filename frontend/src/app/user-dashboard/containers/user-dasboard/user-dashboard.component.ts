@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DataSource } from '@angular/cdk/table';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 import { UserService, User } from '../../../../services/api/user.service';
 import { EditUserComponent } from '../../components/edit-user/edit-user.component';
@@ -18,6 +18,9 @@ export class UserDashboardComponent implements OnInit {
 
   userDataSource: UserDataSource = null;
   userChanges: BehaviorSubject<User[]> = new BehaviorSubject<User[]>([]);
+
+  editUserDialogRef: MatDialogRef<EditUserComponent>;
+  creatUserDialogRef: MatDialogRef<CreateUserComponent>;
   constructor(
     private userService: UserService,
     private dialog: MatDialog
@@ -31,18 +34,50 @@ export class UserDashboardComponent implements OnInit {
   }
 
   handleUserClick(user: User) {
-    const dialogRef = this.dialog.open(EditUserComponent, {
+    this.editUserDialogRef = this.dialog.open(EditUserComponent, {
       width: '320px',
       data: {
-        user
+        user,
+        onSave: (id, editedUser) => {
+          this.handleUserEdit(id, editedUser);
+        }
       }
     });
   }
 
   handleAddUserClick() {
-    const dialogRef = this.dialog.open(CreateUserComponent, {
+    this.creatUserDialogRef = this.dialog.open(CreateUserComponent, {
       width: '320px',
+      data: {
+        onCreate: (user) => {
+          this.handleUserCreate(user);
+        }
+      }
     });
+  }
+
+  handleUserEdit(id: number, user: User) {
+    this.editUserDialogRef.close();
+    this.userService.update(id, user)
+      .subscribe(() => {
+        console.log('success');
+        },
+        error => {
+        console.log(error);
+        });
+  }
+
+  handleUserCreate(user: User) {
+    this.creatUserDialogRef.close();
+    this.userService.create(user)
+      .subscribe(
+        (response) => {
+          console.log('User was successfully created');
+        },
+        () => {
+          console.log('Error while creating user');
+        }
+      )
   }
 }
 

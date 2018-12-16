@@ -18,4 +18,8 @@ export class EditUserComponent implements OnInit {
   ngOnInit() {
     this.userForm = this.fb.group({});
   }
+
+  saveUser() {
+    this.data.onSave(this.data.user.id, this.userForm.value);
+  }
 }
