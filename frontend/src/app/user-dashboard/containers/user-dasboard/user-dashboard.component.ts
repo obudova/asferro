@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { DataSource } from '@angular/cdk/table';
+import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { MatDialog } from '@angular/material/dialog';
 
 import { UserService, User } from '../../../../services/api/user.service';
-import { DataSource } from "@angular/cdk/table";
-import { Observable } from "rxjs/Observable";
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { MatDialog } from '@angular/material/dialog'
+import { EditUserComponent } from '../../components/edit-user/edit-user.component';
+
 
 @Component({
   selector: 'app-user-dashboard',
@@ -28,7 +30,12 @@ export class UserDashboardComponent implements OnInit {
   }
 
   handleUserClick(user: User) {
-    console.log(user);
+    const dialogRef = this.dialog.open(EditUserComponent, {
+      width: '320px',
+      data: {
+        user
+      }
+    });
   }
 }
 

@@ -10,16 +10,17 @@ import {
 } from '@angular/material';
 import { CdkTableModule } from '@angular/cdk/table';
 import { MatDialogModule } from '@angular/material/dialog';
-
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
 // Components
 import { UserDashboardComponent } from './containers/user-dasboard/user-dashboard.component';
 import { UserTableComponent } from './components/user-table/user-table.component';
-
-// Services
-import { UserService } from '../../services/api/user.service';
 import { UserFormComponent } from './components/user-form/user-form.component';
 import { EditUserComponent } from './components/edit-user/edit-user.component';
 import { CreateUserComponent } from './components/create-user/create-user.component';
+
+// Services
+import { UserService } from '../../services/api/user.service';
 
 @NgModule({
   imports: [
@@ -31,7 +32,9 @@ import { CreateUserComponent } from './components/create-user/create-user.compon
     MatPaginatorModule,
     MatButtonModule,
     CdkTableModule,
-    MatDialogModule
+    MatDialogModule,
+    ReactiveFormsModule,
+    MatInputModule
   ],
   declarations: [
     UserDashboardComponent,
@@ -45,6 +48,10 @@ import { CreateUserComponent } from './components/create-user/create-user.compon
   ],
   providers: [
     UserService
+  ],
+  entryComponents: [
+    EditUserComponent,
+    CreateUserComponent
   ]
 })
 export class UserDashboardModule { }

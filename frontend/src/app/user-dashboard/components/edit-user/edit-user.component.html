@@ -1,3 +1,6 @@
-<p>
-  edit-user works!
-</p>
+<h2>Edit user</h2>
+<app-user-form [user]="data.user" [parent]="userForm"></app-user-form>
+<div class="form-controls">
+  <button mat-raised-button color="warn">Delete</button>
+  <button mat-raised-button color="primary">Save</button>
+</div>

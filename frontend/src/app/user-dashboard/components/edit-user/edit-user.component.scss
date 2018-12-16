@@ -1,0 +1,10 @@
+.form-controls {
+  display: flex;
+
+  button {
+    flex-grow: 1;
+    &:first-child {
+      margin-right: 4px;
+    }
+  }
+}
