@@ -47,7 +47,32 @@ const start = async () => {
         });
 
         userRouter.get('/:id', async function (req, res) {
-            res.send('Get specific user');
+            const searchUser = promisify(client.search.bind(client));
+
+            try {
+                const es_response = await searchUser({
+                    index: 'users',
+                    body: {
+                        query: {
+                            term: {
+                                _id: req.params.id
+                            }
+                        }
+                    }
+                });
+
+                let hits = es_response['hits']['hits'];
+
+                if (hits.length === 0) {
+                    res.status(404);
+                    res.send();
+                } else {
+                    res.send({...{id: req.params.id}, ...hits[0]['_source']});
+                }
+
+            } catch (e) {
+                console.log(e)
+            }
         });
 
         userRouter.post('/', async function (req, res) {
