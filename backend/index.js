@@ -51,7 +51,34 @@ const start = async () => {
         });
 
         userRouter.post('/', async function (req, res) {
-            res.send('Create user');
+            var name = req.body.name;
+            var surname = req.body.surname;
+            var birth_date = req.body.birth_date;
+            var email = req.body.email;
+
+            const createUserIndex = promisify(client.index.bind(client));
+
+            try {
+                const es_response = await createUserIndex({
+                    index: 'users',
+                    type: '_doc',
+                    body: {
+                        name: name,
+                        surname: surname,
+                        birth_date: birth_date,
+                        email: email,
+                        created_at: Math.round(Date.now() / 1000),
+                        updated_at: Math.round(Date.now() / 1000)
+                    }
+                });
+
+                res.status(201);
+                res.send({
+                    id: es_response['_id']
+                });
+            } catch (e) {
+
+            }
         });
 
         userRouter.patch('/:id', function (req, res) {
