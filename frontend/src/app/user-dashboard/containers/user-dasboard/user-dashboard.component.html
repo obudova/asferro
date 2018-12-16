@@ -8,7 +8,7 @@
       <h2>Users</h2>
     </div>
     <div class="table__body">
-      <app-user-table></app-user-table>
+      <app-user-table [dataSource]="userDataSource" [totalUsers]="this.userChanges.getValue().length"></app-user-table>
     </div>
   </div>
 </div>

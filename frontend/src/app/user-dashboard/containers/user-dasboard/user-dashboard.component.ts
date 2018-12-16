@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { environment } from '../../../../environments/environment.custom';
-import { UserService } from '../../../../services/api/user.service';
+
+import { UserService, User } from '../../../../services/api/user.service';
+import { DataSource } from "@angular/cdk/table";
+import { Observable } from "rxjs/Observable";
+import { BehaviorSubject } from "rxjs";
 
 @Component({
   selector: 'app-user-dashboard',
@@ -9,10 +12,26 @@ import { UserService } from '../../../../services/api/user.service';
 })
 export class UserDashboardComponent implements OnInit {
 
+  userDataSource: UserDataSource = null;
+  userChanges: BehaviorSubject<User[]> = new BehaviorSubject<User[]>([]);
   constructor(private userService: UserService) { }
 
   ngOnInit() {
-    console.log(environment);
+    this.userDataSource = new UserDataSource(this.userChanges);
+    this.userService.list().subscribe((response: User[]) => {
+      this.userChanges.next(response);
+    });
+  }
+}
+
+class UserDataSource extends DataSource<any> {
+  constructor (private userChanges: Observable<User[]>) {
+    super();
   }
 
+  connect(): Observable<User[]> {
+    return this.userChanges;
+  }
+
+  disconnect() {}
 }
