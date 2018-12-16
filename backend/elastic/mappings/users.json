@@ -1,0 +1,82 @@
+{
+  "settings": {
+    "index": {
+      "analysis": {
+        "analyzer": {
+          "user_analyzer": {
+            "filter": [
+              "lowercase"
+            ],
+            "char_filter": [
+              "html_strip"
+            ],
+            "tokenizer": "standard"
+          }
+        }
+      },
+      "max_result_window": "15000",
+      "refresh_interval": "1s"
+    }
+  },
+  "mappings": {
+    "_doc": {
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "text",
+          "analyzer": "user_analyzer",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "surname": {
+          "type": "text",
+          "analyzer": "user_analyzer",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "birth_date": {
+          "type": "date",
+          "format": "yyyy-MM-dd HH:mm:ss"
+        },
+        "phone_number": {
+          "type": "text",
+          "analyzer": "user_analyzer",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "email": {
+          "type": "text",
+          "analyzer": "user_analyzer",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "updated_at": {
+          "type": "date",
+          "format": "yyyy-MM-dd HH:mm:ss"
+        },
+        "created_at": {
+          "type": "date",
+          "format": "yyyy-MM-dd HH:mm:ss"
+        }
+      }
+    }
+  }
+}
