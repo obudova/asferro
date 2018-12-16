@@ -16,12 +16,14 @@ import { CreateUserComponent } from '../../components/create-user/create-user.co
   styleUrls: ['./user-dashboard.component.scss']
 })
 export class UserDashboardComponent implements OnInit {
-
   userDataSource: UserDataSource = null;
   userChanges: BehaviorSubject<User[]> = new BehaviorSubject<User[]>([]);
 
   editUserDialogRef: MatDialogRef<EditUserComponent>;
   creatUserDialogRef: MatDialogRef<CreateUserComponent>;
+
+  loading = false;
+
   constructor(
     private userService: UserService,
     private dialog: MatDialog,
@@ -30,8 +32,19 @@ export class UserDashboardComponent implements OnInit {
 
   ngOnInit() {
     this.userDataSource = new UserDataSource(this.userChanges);
-    this.userService.list().subscribe((response: User[]) => {
-      this.userChanges.next(response);
+
+    this.loadUsers();
+  }
+
+  loadUsers() {
+    this.loading = true;
+
+    this.userService.list()
+      .finally(() => {
+        this.loading = false;
+      })
+      .subscribe((response: User[]) => {
+        this.userChanges.next(response);
     });
   }
 
@@ -42,6 +55,9 @@ export class UserDashboardComponent implements OnInit {
         user,
         onSave: (id, editedUser) => {
           this.handleUserEdit(id, editedUser);
+        },
+        onDelete: (id) => {
+          this.handleUserDelete(id);
         }
       }
     });
@@ -61,6 +77,9 @@ export class UserDashboardComponent implements OnInit {
   handleUserEdit(id: number, user: User) {
     this.editUserDialogRef.close();
     this.userService.update(id, user)
+      .finally(() => {
+        this.loadUsers();
+      })
       .subscribe(() => {
           this.snackbar.open('User was successfully updated', 'Dismiss');
         },
@@ -72,6 +91,9 @@ export class UserDashboardComponent implements OnInit {
   handleUserCreate(user: User) {
     this.creatUserDialogRef.close();
     this.userService.create(user)
+      .finally(() => {
+        this.loadUsers();
+      })
       .subscribe(
         (response) => {
           this.snackbar.open('User was successfully created', 'Dismiss');
@@ -80,6 +102,20 @@ export class UserDashboardComponent implements OnInit {
           this.snackbar.open('Some error occurred while creating user', 'Dismiss');
         }
       );
+  }
+
+  handleUserDelete(id: string) {
+    this.editUserDialogRef.close();
+    this.userService.delete(id)
+      .finally(() => {
+        this.loadUsers();
+      })
+      .subscribe(() => {
+          this.snackbar.open('User was successfully updated', 'Dismiss');
+        },
+        error => {
+          this.snackbar.open('Some error occurred while updating user', 'Dismiss');
+        });
   }
 }
 
