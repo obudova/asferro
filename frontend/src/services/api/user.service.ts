@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { MakeRequestOptions, RequestService } from '../request.service';
 
 import { environment } from '../../environments/environment.custom';
-import {PaginationOptions} from "../../app/user-dashboard/components/user-table/user-table.component";
+import { PaginationOptions } from '../../app/user-dashboard/components/user-table/user-table.component';
 
 export interface User {
   id: number;

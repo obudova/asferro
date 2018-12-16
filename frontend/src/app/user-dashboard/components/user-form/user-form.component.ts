@@ -22,7 +22,7 @@ export class UserFormComponent implements OnInit {
     const userForm = {
       name: this.fb.control(this.user && this.user.name, Validators.required),
       surname: this.fb.control(this.user && this.user.surname, Validators.required),
-      birth_date: this.fb.control(this.user && this.user.birth_date),
+      birth_date: this.fb.control(this.user && new Date(this.user.birth_date)),
       phone_number: this.fb.control(this.user && this.user.phone_number),
       email: this.fb.control(this.user && this.user.email, Validators.email),
     };
