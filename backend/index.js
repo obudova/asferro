@@ -61,8 +61,11 @@ const start = async () => {
             let total = es_response['hits']['total'];
 
             if (hits.length === 0) {
-                res.status(404);
-                res.send();
+                res.send({
+                        users: [],
+                        total: total
+                    },
+                );
             } else {
                 res.send({
                         users: hits.map((item, index) => {
@@ -146,23 +149,25 @@ const start = async () => {
     userRouter.put('/:id', async function (req, res) {
         var name = req.body.name;
         var surname = req.body.surname;
-        var birth_date = req.body.birth_date;
+        var birth_date = Date.parse(req.body.birth_date);
         var email = req.body.email;
 
         const createUserIndex = promisify(client.update.bind(client));
 
         try {
-            const es_response = await createUserIndex({
+            await createUserIndex({
                 index: 'users',
                 type: '_doc',
                 id: req.params.id,
                 refresh: true,
                 body: {
-                    name: name,
-                    surname: surname,
-                    birth_date: birth_date,
-                    email: email,
-                    updated_at: Math.round(Date.now())
+                    doc: {
+                        name: name,
+                        surname: surname,
+                        birth_date: birth_date,
+                        email: email,
+                        updated_at: Math.round(Date.now())
+                    }
                 }
             });
 
