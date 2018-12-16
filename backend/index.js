@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors')
 const bodyParser = require('body-parser');
 const client = require('./elastic/connection.js');
 const {promisify} = require('util');
@@ -34,6 +35,8 @@ const start = async () => {
 
         // Init express framework
         var app = express();
+        app.use(cors());
+        app.options('*', cors());
         app.use(bodyParser.json({type: 'application/json'}));
 
         var userRouter = express.Router();
