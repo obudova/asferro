@@ -42,8 +42,38 @@ const start = async () => {
             res.send('Hello Asferro API!');
         });
 
-        userRouter.get('/', function (req, res) {
-            res.send('Get all users');
+        userRouter.get('/', async function (req, res) {
+            var page = req.query.page || 0;
+            var size = req.query.size || 10;
+
+            const searchAllUsers = promisify(client.search.bind(client));
+
+            try {
+                const es_response = await searchAllUsers({
+                    from: page * size,
+                    size: size,
+                    index: 'users',
+                });
+
+                let hits = es_response['hits']['hits'];
+                let total = es_response['hits']['total'];
+
+                if (hits.length === 0) {
+                    res.status(404);
+                    res.send();
+                } else {
+                    res.send({
+                            users: hits.map((item, index) => {
+                                return {...{id: item['_id']}, ...item['_source']};
+                            }),
+                            total: total
+                        },
+                    );
+                }
+
+            } catch (e) {
+                console.log(e)
+            }
         });
 
         userRouter.get('/:id', async function (req, res) {
