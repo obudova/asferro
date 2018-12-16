@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { MakeRequestOptions, RequestService } from '../request.service';
 
 import { environment } from '../../environments/environment.custom';
+import {PaginationOptions} from "../../app/user-dashboard/components/user-table/user-table.component";
 
 export interface User {
   id: number;
@@ -38,6 +39,17 @@ export class UserService {
   list(): Observable<any>  {
     // return this.requestService.request(`localhost:8081`, 'GET');
     return Observable.of(this.dummyData).delay(400);
+  }
+
+  paginate(paginationOptions: PaginationOptions, sortOtions?, options?: MakeRequestOptions): Observable<any> {
+    const params = {
+      ...paginationOptions
+    };
+
+    return this.requestService.request(`${this.apiUrl}`, 'GET', {
+      ...options,
+      params
+    });
   }
 
   create(entity: any, options?: MakeRequestOptions): Observable<any> {

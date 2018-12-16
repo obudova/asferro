@@ -11,7 +11,7 @@
       <app-user-table
         *ngIf="!loading; else spinner"
         (rowClicked)="handleUserClick($event)"
-        (paginationOptionsChanged)="handlePa"
+        (paginationOptionsChanged)="handlePaginationOptionsChanged($event)"
         [dataSource]="userDataSource"
         [totalUsers]="this.userChanges.getValue().length"
         [pageIndex]="userPaginationOptions.page"
