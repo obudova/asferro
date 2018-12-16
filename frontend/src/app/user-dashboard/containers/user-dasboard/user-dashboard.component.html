@@ -9,10 +9,17 @@
     </div>
     <div class="table__body">
       <app-user-table
+        *ngIf="!loading; else spinner"
         (rowClicked)="handleUserClick($event)"
         [dataSource]="userDataSource"
         [totalUsers]="this.userChanges.getValue().length">
       </app-user-table>
+
+      <ng-template #spinner>
+        <div class="spinner-container">
+          <mat-spinner [diameter]="70" strokeWidth="4"></mat-spinner>
+        </div>
+      </ng-template>
     </div>
   </div>
 </div>

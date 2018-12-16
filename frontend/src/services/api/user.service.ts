@@ -37,7 +37,7 @@ export class UserService {
 
   list(): Observable<any>  {
     // return this.requestService.request(`localhost:8081`, 'GET');
-    return Observable.of(this.dummyData);
+    return Observable.of(this.dummyData).delay(400);
   }
 
   create(entity: any, options?: MakeRequestOptions): Observable<any> {
@@ -53,6 +53,13 @@ export class UserService {
       responseType: 'blob',
       ...options,
       data: entity
+    });
+  }
+
+  delete(id: any, options?: MakeRequestOptions): Observable<any> {
+    return this.requestService.request(`${this.apiUrl}/${id}`, 'DELETE', {
+      responseType: 'blob',
+      ...options
     });
   }
 }

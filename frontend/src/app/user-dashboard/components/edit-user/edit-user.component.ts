@@ -22,4 +22,8 @@ export class EditUserComponent implements OnInit {
   saveUser() {
     this.data.onSave(this.data.user.id, this.userForm.value);
   }
+
+  deleteUser() {
+    this.data.onDelete(this.data.user.id, this.userForm.value);
+  }
 }
