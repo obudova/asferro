@@ -3,9 +3,9 @@ import { DataSource } from '@angular/cdk/table';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material'
+import { MatSnackBar } from '@angular/material';
 
-import { UserService, User } from '../../../../services/api/user.service';
+import { UserService, User, UserListResponse } from '../../../../services/api/user.service';
 import { EditUserComponent } from '../../components/edit-user/edit-user.component';
 import { CreateUserComponent } from '../../components/create-user/create-user.component';
 import { PaginationOptions } from '../../components/user-table/user-table.component';
@@ -45,8 +45,8 @@ export class UserDashboardComponent implements OnInit {
       .finally(() => {
         this.loading = false;
       })
-      .subscribe((response: User[]) => {
-        this.userChanges.next(response);
+      .subscribe((response: UserListResponse) => {
+        this.userChanges.next(response.users);
     });
   }
 

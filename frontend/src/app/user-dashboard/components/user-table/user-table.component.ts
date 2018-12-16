@@ -46,4 +46,8 @@ export class UserTableComponent {
 
     this.paginationOptionsChanged.emit(paginationOptions);
   }
+
+  handleSortEvent() {
+
+  }
 }
