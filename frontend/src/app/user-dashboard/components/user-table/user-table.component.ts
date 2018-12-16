@@ -25,6 +25,12 @@ export class UserTableComponent {
   @Input()
   dataSource: DataSource<User[]>;
 
+  @Output()
+  rowClicked = new EventEmitter<User>();
+
   displayedColumns = ['name'];
 
+  handleRowClick(user: User) {
+    this.rowClicked.emit(user);
+  }
 }
