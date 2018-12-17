@@ -9,7 +9,7 @@ userRouter.get('/', async function (req, res) {
     const order_dir = req.query.order_dir || 'asc';
 
     try {
-        const result = await UserQueries.findAllEntries(page,size,order_key, order_dir);
+        const result = await UserQueries.findAllUsers(page, size, order_key, order_dir);
         res.send(result);
     } catch (e) {
         console.log(e);

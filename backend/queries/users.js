@@ -1,11 +1,13 @@
 const esClient = require('../elastic/connection');
 
-module.exports.findAllEntries = async function (page, size, order_key, order_dir) {
+const userIndex = 'users';
+
+module.exports.findAllUsers = async function (page, size, order_key, order_dir) {
     const es_response = await esClient.search({
+        index: userIndex,
         sort: order_key + ':' + order_dir,
         from: page * size,
         size: size,
-        index: 'users',
     });
 
     const hits = es_response.hits.hits;
@@ -17,8 +19,12 @@ module.exports.findAllEntries = async function (page, size, order_key, order_dir
     };
 
     if (total) {
-        return {...result, users: hits.map((item) => {
-                return {...{id: item['_id']}, ...item['_source']};
+        return {
+            ...result,
+            users: hits.map((item) => {
+                return {
+                    ...{id: item['_id']},
+                    ...item['_source']};
             })
         }
     } else {
@@ -43,13 +49,13 @@ module.exports.searchUser =  async function (id) {
     if (result.length === 0) {
         return false;
     } else {
-        return {...{id}, ...result[0]['_source']};
+        return {id, ...result[0]['_source']};
     }
 };
 
 module.exports.createUser = async function (user) {
     const es_response = await esClient.index({
-        index: 'users',
+        index: userIndex,
         type: '_doc',
         refresh: true,
         body: {
@@ -63,8 +69,8 @@ module.exports.createUser = async function (user) {
 };
 
 module.exports.updateUser = async function (id, user) {
-  const es_response = await esClient.update({
-      index: 'users',
+  return await esClient.update({
+      index: userIndex,
       type: '_doc',
       id,
       refresh: true,
@@ -75,17 +81,13 @@ module.exports.updateUser = async function (id, user) {
           }
       }
   });
-
-  return es_response;
 };
 
 module.exports.deleteUser = async function (id) {
-    const es_response = await esClient.delete({
-        index: 'users',
+    return await esClient.delete({
+        index: userIndex,
         type: '_doc',
         id,
         refresh: true
     });
-
-    return es_response;
-}
+};
