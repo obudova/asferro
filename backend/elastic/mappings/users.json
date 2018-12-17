@@ -27,6 +27,7 @@
         "name": {
           "type": "text",
           "analyzer": "user_analyzer",
+          "fielddata": true,
           "fields": {
             "keyword": {
               "type": "keyword",
@@ -37,6 +38,7 @@
         "surname": {
           "type": "text",
           "analyzer": "user_analyzer",
+          "fielddata": true,
           "fields": {
             "keyword": {
               "type": "keyword",
@@ -51,6 +53,7 @@
         "phone_number": {
           "type": "text",
           "analyzer": "user_analyzer",
+          "fielddata": true,
           "fields": {
             "keyword": {
               "type": "keyword",
@@ -61,6 +64,7 @@
         "email": {
           "type": "text",
           "analyzer": "user_analyzer",
+          "fielddata": true,
           "fields": {
             "keyword": {
               "type": "keyword",

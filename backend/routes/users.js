@@ -13,7 +13,7 @@ userRouter.get('/', async function (req, res) {
 
     try {
         const es_response = await searchAllUsers({
-            sort: order_key + '.keyword' + ':' + order_dir,
+            sort: order_key + ':' + order_dir,
             from: page * size,
             size: size,
             index: 'users',
