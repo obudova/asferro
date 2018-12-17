@@ -1,42 +1,16 @@
 const express = require('express');
-const { promisify } = require('util');
-const client = require('../elastic/connection.js');
 const userRouter = express.Router();
+const UserQueries = require('../queries/users');
 
 userRouter.get('/', async function (req, res) {
-    var page = req.query.page || 0;
-    var size = req.query.size || 10;
-    var order_key = req.query.order_key || 'name';
-    var order_dir = req.query.order_dir || 'asc';
-
-    const searchAllUsers = promisify(client.search.bind(client));
+    const page = req.query.page || 0;
+    const size = req.query.size || 10;
+    const order_key = req.query.order_key || 'name';
+    const order_dir = req.query.order_dir || 'asc';
 
     try {
-        const es_response = await searchAllUsers({
-            sort: order_key + ':' + order_dir,
-            from: page * size,
-            size: size,
-            index: 'users',
-        });
-
-        let hits = es_response['hits']['hits'];
-        let total = es_response['hits']['total'];
-
-        if (hits.length === 0) {
-            res.send({
-                    users: [],
-                    total: total
-                },
-            );
-        } else {
-            res.send({
-                    users: hits.map((item, index) => {
-                        return {...{id: item['_id']}, ...item['_source']};
-                    }),
-                    total: total
-                },
-            );
-        }
+        const result = await UserQueries.findAllEntries(page,size,order_key, order_dir);
+        res.send(result);
     } catch (e) {
         console.log(e);
         res.status(e.status);
@@ -45,119 +19,78 @@ userRouter.get('/', async function (req, res) {
 });
 
 userRouter.get('/:id', async function (req, res) {
-    const searchUser = promisify(client.search.bind(client));
     try {
-        const es_response = await searchUser({
-            index: 'users',
-            body: {
-                query: {
-                    term: {
-                        _id: req.params.id
-                    }
-                }
-            }
-        });
+        const result = await UserQueries.searchUser(req.params.id);
 
-        let hits = es_response['hits']['hits'];
-
-        if (hits.length === 0) {
+        if (result) {
+            res.send(result);
+        } else {
             res.status(404);
             res.send();
-        } else {
-            res.send({...{id: req.params.id}, ...hits[0]['_source']});
         }
 
     } catch (e) {
         console.log(e);
-        res.stat(e.status);
+        res.status(e.status);
         res.send();
     }
 });
 
 userRouter.post('/', async function (req, res) {
-    var name = req.body.name;
-    var surname = req.body.surname;
-    var birth_date = Date.parse(req.body.birth_date);
-    var email = req.body.email;
-
-    const createUserIndex = promisify(client.index.bind(client));
+    const name = req.body.name;
+    const surname = req.body.surname;
+    const birth_date = Date.parse(req.body.birth_date);
+    const email = req.body.email;
 
     try {
-        const es_response = await createUserIndex({
-            index: 'users',
-            type: '_doc',
-            refresh: true,
-            body: {
-                name: name,
-                surname: surname,
-                birth_date: birth_date,
-                email: email,
-                created_at: Math.round(Date.now()),
-                updated_at: Math.round(Date.now())
-            }
+        const result = await UserQueries.createUser({
+            name,
+            surname,
+            birth_date,
+            email
         });
 
         res.status(201);
         res.send({
-            id: es_response['_id']
+            id: result
         });
     } catch (e) {
         console.log(e);
-        res.stat(e.status);
+        res.status(e.status);
         res.send();
     }
 });
 
 userRouter.put('/:id', async function (req, res) {
-    var name = req.body.name;
-    var surname = req.body.surname;
-    var birth_date = Date.parse(req.body.birth_date);
-    var email = req.body.email;
-
-    const createUserIndex = promisify(client.update.bind(client));
+    const name = req.body.name;
+    const surname = req.body.surname;
+    const birth_date = Date.parse(req.body.birth_date);
+    const email = req.body.email;
 
     try {
-        await createUserIndex({
-            index: 'users',
-            type: '_doc',
-            id: req.params.id,
-            refresh: true,
-            body: {
-                doc: {
-                    name: name,
-                    surname: surname,
-                    birth_date: birth_date,
-                    email: email,
-                    updated_at: Math.round(Date.now())
-                }
-            }
+        const result = await UserQueries.updateUser(req.params.id, {
+            name,
+            surname,
+            birth_date,
+            email
         });
-
         res.send();
 
     } catch (e) {
         console.log(e);
-        res.stat(e.status);
+        res.status(e.status);
         res.send();
     }
 });
 
 userRouter.delete('/:id', async function (req, res) {
-    const searchUser = promisify(client.delete.bind(client));
-
     try {
-        await searchUser({
-            index: 'users',
-            type: '_doc',
-            id: req.params.id,
-            refresh: true
-        });
-
+        const result = await UserQueries.deleteUser(req.params.id);
         res.send()
 
     } catch (e) {
         console.log(e);
-        res.stat(e.status);
+        res.status(e.status);
         res.send();
     }
 });
