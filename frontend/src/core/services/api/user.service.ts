@@ -3,19 +3,9 @@ import { Observable } from 'rxjs/Observable';
 
 import { MakeRequestOptions, RequestService } from '../request.service';
 
-import { environment } from '../../environments/environment.custom';
-import { PaginationOptions } from '../../app/user-dashboard/components/user-table/user-table.component';
-
-export interface User {
-  id: number;
-  name: string;
-  surname: string;
-  birth_date: number;
-  phone_number: number;
-  email: string;
-  edited_at: number;
-  created_at: number;
-}
+import { environment } from '../../../environments/environment.custom';
+import { PaginationOptions } from '../../../app/user-dashboard/components/user-table/user-table.component';
+import { User } from '../../models/user.interface';
 
 
 export interface UserListResponse {
@@ -37,7 +27,6 @@ export class UserService {
   }
 
   list(): Observable<any>  {
-    // return this.requestService.request(`localhost:8081`, 'GET');
     return Observable.of(this.dummyData).delay(400);
   }
 

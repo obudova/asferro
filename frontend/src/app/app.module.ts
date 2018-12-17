@@ -6,7 +6,7 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { UserDashboardModule } from './user-dashboard/user-dashboard.module';
-import { RequestService } from '../services/request.service';
+import { RequestService } from '../core/services/request.service';
 
 @NgModule({
   declarations: [

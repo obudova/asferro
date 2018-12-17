@@ -5,10 +5,11 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material';
 
-import { UserService, User, UserListResponse } from '../../../../services/api/user.service';
+import { UserService, UserListResponse } from '../../../../core/services/api/user.service';
+import { User } from '../../../../core/models/user.interface';
 import { EditUserComponent } from '../../components/edit-user/edit-user.component';
 import { CreateUserComponent } from '../../components/create-user/create-user.component';
-import {PaginationOptions, SortOptions} from '../../components/user-table/user-table.component';
+import { PaginationOptions, SortOptions } from '../../components/user-table/user-table.component';
 
 
 @Component({

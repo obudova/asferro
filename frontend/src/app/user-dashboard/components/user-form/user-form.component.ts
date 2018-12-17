@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { User } from '../../../../services/api/user.service';
+import { User } from '../../../../core/models/user.interface';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({

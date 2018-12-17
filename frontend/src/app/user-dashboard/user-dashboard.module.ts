@@ -25,7 +25,7 @@ import { EditUserComponent } from './components/edit-user/edit-user.component';
 import { CreateUserComponent } from './components/create-user/create-user.component';
 
 // Services
-import { UserService } from '../../services/api/user.service';
+import { UserService } from '../../core/services/api/user.service';
 
 @NgModule({
   imports: [

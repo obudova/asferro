@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { PageEvent, Sort } from '@angular/material';
 import { DataSource } from '@angular/cdk/table';
-import { User } from '../../../../services/api/user.service';
+import { User } from '../../../../core/services/api/user.service';
 
 export interface PaginationOptions {
   page: number;
