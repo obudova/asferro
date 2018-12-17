@@ -4,9 +4,14 @@ import { DataSource } from '@angular/cdk/table';
 import { User } from '../../../../services/api/user.service';
 
 export interface PaginationOptions {
-  page: number,
-  size: number
-};
+  page: number;
+  size: number;
+}
+
+export interface SortOptions {
+  order_key: string;
+  order_dir: string;
+}
 
 @Component({
   selector: 'app-user-table',
@@ -34,6 +39,8 @@ export class UserTableComponent {
   rowClicked = new EventEmitter<User>();
   @Output()
   paginationOptionsChanged = new EventEmitter<PaginationOptions>();
+  @Output()
+  sortOptionsChanged = new EventEmitter<SortOptions>();
 
   displayedColumns = ['name', 'surname', 'birth_date', 'updated_at'];
 
@@ -47,7 +54,9 @@ export class UserTableComponent {
     this.paginationOptionsChanged.emit(paginationOptions);
   }
 
-  handleSortEvent() {
+  handleSortEvent(event: Sort) {
+    const sortOptions = { order_key: event.active, order_dir: event.direction};
 
+    this.sortOptionsChanged.emit(sortOptions);
   }
 }

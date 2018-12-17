@@ -8,7 +8,7 @@ import { MatSnackBar } from '@angular/material';
 import { UserService, User, UserListResponse } from '../../../../services/api/user.service';
 import { EditUserComponent } from '../../components/edit-user/edit-user.component';
 import { CreateUserComponent } from '../../components/create-user/create-user.component';
-import { PaginationOptions } from '../../components/user-table/user-table.component';
+import {PaginationOptions, SortOptions} from '../../components/user-table/user-table.component';
 
 
 @Component({
@@ -20,6 +20,8 @@ export class UserDashboardComponent implements OnInit {
   userDataSource: UserDataSource = null;
   userChanges: BehaviorSubject<User[]> = new BehaviorSubject<User[]>([]);
   userPaginationOptions = { page: 0, size: 10};
+  userSortOptions: SortOptions;
+  totalUsers = 0;
 
   editUserDialogRef: MatDialogRef<EditUserComponent>;
   creatUserDialogRef: MatDialogRef<CreateUserComponent>;
@@ -41,11 +43,12 @@ export class UserDashboardComponent implements OnInit {
   loadUsers() {
     this.loading = true;
 
-    this.userService.paginate(this.userPaginationOptions)
+    this.userService.paginate(this.userPaginationOptions, this.userSortOptions)
       .finally(() => {
         this.loading = false;
       })
       .subscribe((response: UserListResponse) => {
+        this.totalUsers = response.total;
         this.userChanges.next(response.users);
     });
   }
@@ -122,6 +125,12 @@ export class UserDashboardComponent implements OnInit {
 
   handlePaginationOptionsChanged(event: PaginationOptions) {
     this.userPaginationOptions = event;
+
+    this.loadUsers();
+  }
+
+  handleSort(event: SortOptions) {
+    this.userSortOptions = event;
 
     this.loadUsers();
   }
