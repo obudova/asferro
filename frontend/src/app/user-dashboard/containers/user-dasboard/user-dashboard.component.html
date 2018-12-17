@@ -9,7 +9,7 @@
     </div>
     <div class="table__body">
       <app-user-table
-        ng-If="!loading"
+        [class.hidden]="loading"
         (rowClicked)="handleUserClick($event)"
         (sortOptionsChanged)="handleSort($event)"
         (paginationOptionsChanged)="handlePaginationOptionsChanged($event)"
@@ -19,11 +19,11 @@
         [pageSize]="userPaginationOptions.size">
       </app-user-table>
 
-      <ng-template #spinner ng-if="loading">
-        <div class="spinner-container">
+      <ng-container #spinner>
+        <div class="spinner-container" [class.hidden]="!loading">
           <mat-spinner [diameter]="70" strokeWidth="4"></mat-spinner>
         </div>
-      </ng-template>
+      </ng-container>
     </div>
   </div>
 </div>
