@@ -41,9 +41,10 @@ export class UserService {
     return Observable.of(this.dummyData).delay(400);
   }
 
-  paginate(paginationOptions: PaginationOptions, sortOtions?, options?: MakeRequestOptions): Observable<any> {
+  paginate(paginationOptions: PaginationOptions, sortOptions?, options?: MakeRequestOptions): Observable<any> {
     const params = {
-      ...paginationOptions
+      ...paginationOptions,
+      ...sortOptions
     };
 
     return this.requestService.request(`${this.apiUrl}`, 'GET', {
