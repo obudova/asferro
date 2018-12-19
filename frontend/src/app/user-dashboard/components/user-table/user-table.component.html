@@ -9,6 +9,11 @@
     <mat-cell *cdkCellDef="let row">{{ row.surname }}</mat-cell>
   </ng-container>
 
+  <ng-container cdkColumnDef="email">
+    <mat-header-cell *cdkHeaderCellDef mat-sort-header>Email</mat-header-cell>
+    <mat-cell *cdkCellDef="let row">{{ row.email}}</mat-cell>
+  </ng-container>
+
   <ng-container cdkColumnDef="birth_date">
     <mat-header-cell *cdkHeaderCellDef mat-sort-header>Date of birth</mat-header-cell>
     <mat-cell *cdkCellDef="let row">{{ row.birth_date | date:'mediumDate'}}</mat-cell>

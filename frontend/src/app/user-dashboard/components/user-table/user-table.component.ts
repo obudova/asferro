@@ -42,7 +42,7 @@ export class UserTableComponent {
   @Output()
   sortOptionsChanged = new EventEmitter<SortOptions>();
 
-  displayedColumns = ['name', 'surname', 'birth_date', 'updated_at'];
+  displayedColumns = ['name', 'surname', 'email', 'birth_date', 'updated_at'];
 
   handleRowClick(user: User) {
     this.rowClicked.emit(user);
