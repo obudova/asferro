@@ -3,7 +3,6 @@ version: '3'
 services:
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:6.5.3
-    container_name: elasticsearch
     environment:
       - cluster.name=docker-cluster
       - bootstrap.memory_lock=true
@@ -14,14 +13,32 @@ services:
         hard: -1
     volumes:
       - esdata:/usr/share/elasticsearch/data
+
+  backend:
+    build: ./backend
+    env_file:
+      - .env
+    restart: unless-stopped
     ports:
-      - 9200:9200
-    networks:
-      - esnet
+      - 8000:8000
+    volumes:
+      - "./backend:/opt/app"
+    depends_on:
+      - elasticsearch
+
+  frontend:
+    build: ./frontend
+    env_file:
+      - .env
+    restart: unless-stopped
+    ports:
+      - 4200:4200
+    volumes:
+      - "./frontend:/opt/app"
+      - "/opt/app/node_modules"
+    depends_on:
+      - backend
 
 volumes:
   esdata:
     driver: local
-
-networks:
-  esnet:

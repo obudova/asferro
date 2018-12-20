@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "API_HOST=http://localhost PORT=8000 node scripts/generateEnvFile.js && ng serve  ",
+    "start": "node scripts/generateEnvFile.js && ng serve --host 0.0.0.0",
     "build": "ng build",
     "build:custom": "node scripts/generateEnvFile.js && ng build --prod --environment=custom",
     "test": "ng test",
@@ -20,11 +20,12 @@
     "@angular/core": "^4.2.4",
     "@angular/forms": "^4.2.4",
     "@angular/http": "^4.2.4",
+    "@angular/material": "^2.0.0-beta.12",
     "@angular/platform-browser": "^4.2.4",
     "@angular/platform-browser-dynamic": "^4.2.4",
     "@angular/router": "^4.2.4",
-    "@angular/material": "^2.0.0-beta.12",
     "core-js": "^2.4.1",
+    "node-sass": "^4.11.0",
     "rxjs": "^5.4.2",
     "zone.js": "^0.8.14"
   },

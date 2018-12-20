@@ -1,7 +1,7 @@
 var elasticsearch = require('elasticsearch');
 
 var client = new elasticsearch.Client({
-    host: 'localhost:9200'
+    host:  process.env.ELASTIC_HOST + ':' + process.env.ELASTIC_PORT
 });
 
 module.exports = client;
