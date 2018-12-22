@@ -11,6 +11,12 @@ services:
       memlock:
         soft: -1
         hard: -1
+    restart: unless-stopped
+    healthcheck:
+        test: curl --fail -s http://localhost:9200 || exit 1
+        interval: 10s
+        timeout: 10s
+        retries: 5
     volumes:
       - esdata:/usr/share/elasticsearch/data
 
